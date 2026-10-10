@@ -267,14 +267,14 @@ export class FlowPromptService {
     // 1. Strict branching: Image modes (text-to-image, edit-image, or Nano Banana models)
     // IMPORTANT: image-to-video and frames are VIDEO modes and must NEVER be treated as image!
     const isImage = mode === 'text-to-image' || mode === 'edit-image' ||
-      (!mode && model && (model.includes('Banana') || model.includes('NARWHAL') || model.includes('GEM_PIX_2') || model.includes('HARBOR_SEAL')));
+      (!mode && model && (model.includes('Banana') || model.includes('BELUGA') || model.includes('NARWHAL') || model.includes('GEM_PIX_2') || model.includes('HARBOR_SEAL')));
 
     if (isImage) {
       logger.info(`[FlowPromptService] Image mode detected (${mode || model}) — routing via pure background RPC (ogiZ0b)`);
       try {
         const bridgeRes = await flowBridgeClient.generateImage({
           prompt: promptText,
-          model: model || 'Nano Banana 2',
+          model: model || 'Nano Banana 2.1',
           aspectRatio: aspectRatio || '16:9',
           count: count || 1,
           seed,

@@ -440,7 +440,7 @@ export class FlowHUDHost {
         const mode = e.target.value;
         const prevMode = this.activeMode;
         const isVideo = mode !== 'text-to-image' && mode !== 'edit-image';
-        const normModel = isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2';
+        const normModel = isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1';
         const normRes = isVideo ? '1080p' : '2K';
 
         if (this.paramMode === 'single') {
@@ -1648,7 +1648,7 @@ export class FlowHUDHost {
       status: 'pending',
       selected: false,
       mode: this.activeMode,
-      model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2',
+      model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1',
       aspectRatio: '16:9',
       duration: '6s',
       outputs: 1,
@@ -1686,7 +1686,7 @@ export class FlowHUDHost {
           status: 'pending',
           selected: false,
           mode: this.activeMode,
-          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2',
+          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1',
           aspectRatio: '16:9',
           duration: '6s',
           outputs: 1,
@@ -1761,7 +1761,7 @@ export class FlowHUDHost {
           status: 'pending',
           selected: false,
           mode: targetMode,
-          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2',
+          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1',
           aspectRatio: '16:9',
           duration: '6s',
           outputs: 1,
@@ -1802,7 +1802,7 @@ export class FlowHUDHost {
             status: 'pending',
             selected: false,
             mode: targetMode,
-            model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2',
+            model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1',
             aspectRatio: '16:9',
             duration: '6s',
             outputs: 1,
@@ -2277,7 +2277,7 @@ export class FlowHUDHost {
           status: 'pending',
           selected: false,
           mode: toMode,
-          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2',
+          model: isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1',
           aspectRatio: '16:9',
           duration: '6s',
           outputs: 1,
@@ -2443,7 +2443,7 @@ export class FlowHUDHost {
 
     // 2. Model
     const isVideo = mode !== 'text-to-image' && mode !== 'edit-image';
-    const defaultModel = isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2';
+    const defaultModel = isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1';
     const model = normalizeModelForMode(mode, item.model || defaultModel);
     const selModel = this.shadow.getElementById('selModelFamily');
     if (selModel) {
@@ -2506,7 +2506,7 @@ export class FlowHUDHost {
     const selModel = this.shadow?.getElementById('selModelFamily');
     const rawModel = (isSingle && item.model)
       ? item.model
-      : (selModel?.value || cfg.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2'));
+      : (selModel?.value || cfg.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1'));
     const model = normalizeModelForMode(mode, rawModel);
 
     const activeDurationBtn = this.shadow?.querySelector('#segDuration .rj-segment-btn.active');
@@ -2623,8 +2623,8 @@ export class FlowHUDHost {
         selModel.value = 'Veo 3.1 - Lite';
         saveConfig({ model: 'Veo 3.1 - Lite' }).catch(() => {});
       } else if (!isVideo && !selModel.value.includes('Banana')) {
-        selModel.value = 'Nano Banana 2';
-        saveConfig({ model: 'Nano Banana 2' }).catch(() => {});
+        selModel.value = 'Nano Banana 2.1';
+        saveConfig({ model: 'Nano Banana 2.1' }).catch(() => {});
       } else if (mode === 'image-to-video' && selModel.value === 'Veo 3.1 - Quality') {
         selModel.value = 'Veo 3.1 - Lite';
         saveConfig({ model: 'Veo 3.1 - Lite' }).catch(() => {});
@@ -2633,7 +2633,7 @@ export class FlowHUDHost {
     }
 
     // Duration is strictly for Omni 1.1 Flash in video mode
-    this.syncModelUI(selModel?.value || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2'), mode);
+    this.syncModelUI(selModel?.value || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1'), mode);
 
     const selRes = this.shadow.getElementById('selResolution');
     if (selRes) {

@@ -9,7 +9,7 @@ import { logger } from '../services/LoggerService.js';
 
 export const STORAGE_KEY = 'rj_vflow_config_v3';
 
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 export const MEDIA_MODES = {
   TEXT_TO_VIDEO: 'text-to-video',
@@ -28,9 +28,14 @@ export const VIDEO_MODELS = [
 
 export const IMAGE_MODELS = [
   'Nano Banana Pro',
-  'Nano Banana 2',
+  'Nano Banana 2.1',
   'Nano Banana 2 Lite'
 ];
+
+// Legacy display name kept for schema migration only. Google Flow removed
+// "Nano Banana 2" from its model menu on 2026-10-05 and serves Nano Banana 2.1
+// (wire code BELUGA) in that slot; stored values are migrated on load.
+export const LEGACY_NANO_BANANA_2 = 'Nano Banana 2';
 
 export const MODELS = {
   OMNI_FLASH: 'Omni 1.1 Flash',
@@ -38,34 +43,42 @@ export const MODELS = {
   VEO_LITE: 'Veo 3.1 - Lite',
   VEO_QUALITY: 'Veo 3.1 - Quality',
   NANO_BANANA_PRO: 'Nano Banana Pro',
+  NANO_BANANA_2_1: 'Nano Banana 2.1',
+  // Legacy alias: kept so old stored configs can be migrated (see migrateSchema).
+  // Do NOT offer in new UI lists — Flow no longer shows "Nano Banana 2".
   NANO_BANANA_2: 'Nano Banana 2',
   NANO_BANANA_2_LITE: 'Nano Banana 2 Lite'
 };
 
 /**
  * Returns default model family for a given media mode.
- * t2i / ei -> Nano Banana 2
+ * t2i / ei -> Nano Banana 2.1
  * t2v / i2v / f2v -> Veo 3.1 - Lite
  */
 export function getDefaultModelForMode(mode) {
   const isImage = mode === MEDIA_MODES.TEXT_TO_IMAGE || mode === MEDIA_MODES.EDIT_IMAGE ||
     (typeof mode === 'string' && mode.includes('image') && !mode.includes('video'));
-  return isImage ? MODELS.NANO_BANANA_2 : MODELS.VEO_LITE;
+  return isImage ? MODELS.NANO_BANANA_2_1 : MODELS.VEO_LITE;
 }
 
 /**
  * Normalizes model family to ensure strict compatibility with the active generation mode:
- * - Image modes (t2i, ei) strictly require Image Models (Nano Banana family). Default: Nano Banana 2.
+ * - Image modes (t2i, ei) strictly require Image Models (Nano Banana family). Default: Nano Banana 2.1.
  * - Video modes (t2v, i2v, f2v) strictly require Video Models (Veo 3.1 family, Omni). Default: Veo 3.1 - Lite.
+ * Legacy stored value "Nano Banana 2" is transparently upgraded to "Nano Banana 2.1"
+ * (Flow retired the 2.0 slot and serves 2.1 there).
  */
 export function normalizeModelForMode(mode, currentModel) {
   const isImage = mode === MEDIA_MODES.TEXT_TO_IMAGE || mode === MEDIA_MODES.EDIT_IMAGE ||
     (typeof mode === 'string' && mode.includes('image') && !mode.includes('video'));
   if (isImage) {
+    if (currentModel === LEGACY_NANO_BANANA_2 || currentModel === MODELS.NANO_BANANA_2) {
+      return MODELS.NANO_BANANA_2_1;
+    }
     if (currentModel && IMAGE_MODELS.includes(currentModel)) {
       return currentModel;
     }
-    return MODELS.NANO_BANANA_2;
+    return MODELS.NANO_BANANA_2_1;
   } else {
     if (currentModel && VIDEO_MODELS.includes(currentModel)) {
       return currentModel;
@@ -133,7 +146,7 @@ function clone(obj) {
 }
 
 /**
- * Migrates old or missing schema structures to Schema Version 3.
+ * Migrates old or missing schema structures to Schema Version 4.
  */
 function migrateSchema(raw) {
   if (!raw || typeof raw !== 'object') {
@@ -142,6 +155,20 @@ function migrateSchema(raw) {
 
   const migrated = Object.assign(clone(DEFAULT_CONFIG), raw);
   migrated.schemaVersion = SCHEMA_VERSION;
+
+  // Schema v4: "Nano Banana 2" was retired from Google Flow's model menu
+  // (2026-10-05) and the slot now serves Nano Banana 2.1. Upgrade any
+  // stored occurrences so old configs keep working without user action.
+  if (migrated.model === LEGACY_NANO_BANANA_2) {
+    migrated.model = MODELS.NANO_BANANA_2_1;
+  }
+  if (Array.isArray(migrated.queue)) {
+    for (const item of migrated.queue) {
+      if (item && item.model === LEGACY_NANO_BANANA_2) {
+        item.model = MODELS.NANO_BANANA_2_1;
+      }
+    }
+  }
 
   // Ensure nested structures are not undefined
   migrated.paramMode = raw.paramMode || 'batch';

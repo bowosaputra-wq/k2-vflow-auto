@@ -1,12 +1,14 @@
 # Current Project State — RJ V-Flow Auto
 
-*Last Updated: 2026-09-23*<br>
-*Active Branch: `task/fix-image-generation-trigger`*<br>
-*Current Milestone: Engine Hardening & Multi-Language Modernization (v3.1.0 Release)*
+*Last Updated: 2026-10-10*<br>
+*Active Branch: `task/nano-banana-2-1-support`*<br>
+*Current Milestone: Nano Banana 2.1 Support (v3.2.0 Release)*
 
 ---
 
 ## 1. Current Phase Progress
+
+- **Nano Banana 2.1 Migration (v3.2.0)**: [COMPLETE] (Google replaced "Nano Banana 2" with "Nano Banana 2.1" in Flow's model picker on 2026-10-05 and retired wire code `NARWHAL` with 404s; added first-class `"Nano Banana 2.1"` model mapped to wire codename `BELUGA` in `flow_bridge.js` `MODEL_MAP`; legacy `"Nano Banana 2"` display names remapped to `BELUGA`; image-mode defaults switched to 2.1 across `FlowStorage`, `QueueManager`, `FlowPromptService`, `FlowHUDHost`, `FlowHUDTemplates`; `SCHEMA_VERSION` 3 -> 4 with automatic stored-config migration; `BELUGA` added to image-mode routing detection; `docs/DECISIONS.md` ADR-016 records the evidence basis)
 
 - **Engine Hardening — Multi-Language Resilient DOM Engine, Grid Size Positional LTR Indexing & Localization Audit**: [COMPLETE] (Audited real user forensic recordings on Indonesian `id-ID` locale; resolved Grid Size S setup failure where `span:has-text("S")` collided with Indonesian 'Sedang' (Medium) instead of 'Kecil' (Small); replaced all localized text queries with structural positional LTR indexing (`index 0 = Small`, `index 1 = Medium`, `index 2 = Large`) over the 3-button toggle group without `mat-icon`; enhanced `findClearPromptSwitch` with Material ligature `ink_eraser`; aligned video Ingredients toggle with Google Flow's native Material ligature `chrome_extension`; implemented numerical duration matching so `8s` matches `8s` (EN) and `8 dtk` (ID); purged all remaining English `[aria-label]` strings from `flow_bridge.js` and `FlowDOM.js`; compiled and validated via `npm run build`)
 - **Phase 1 — Cleanup & Governance Foundation**: [COMPLETE] (Legacy branch isolated and pushed to remote origin, gitignore hardened, root zip archives and legacy version folders purged, complete governance documentation suite established, root AGENTS.md, DESIGN.md, README.md, CHANGELOG.md, LICENSE, branding icons, and clean src/manifest.json scaffold established; merged into dev `7838930`)
@@ -32,7 +34,8 @@
 | `task/core-automation-engine` | Merged | Phase 2: Core Automation Engine & Services (Merged into dev `c14ca68`) |
 | `task/dual-mode-ui` | Merged | Phase 3: Dual-Mode UI Implementation & End-to-End Hardening (Merged into dev `7b0f1d9`) |
 | `task/packaging-and-release` | Merged | Phase 4: Production Packaging Pipeline & Release (Merged into dev) |
-| `task/fix-image-generation-trigger` | Active | Engine Hardening: Option C MAIN-world reCAPTCHA Enterprise & batchexecute RPC bridge |
+| `task/fix-image-generation-trigger` | Merged | Engine Hardening: Option C MAIN-world reCAPTCHA Enterprise & batchexecute RPC bridge |
+| `task/nano-banana-2-1-support` | Active | Nano Banana 2.1 support: BELUGA wire code, schema v4 migration (v3.2.0) |
 
 ---
 
@@ -45,7 +48,7 @@
 | **Veo 3.1 - Lite** | Video | Text-to-Video, Image-to-Video, Frames | Ingredients / Frames | N/A (Preset) | [COMPLETE] |
 | **Veo 3.1 - Quality** | Video | Text-to-Video, Frames (No I2V) | Frames Only | N/A (Preset) | [COMPLETE] |
 | **Nano Banana Pro** | Image | Text-to-Image, Edit Image | Ingredients | N/A | [COMPLETE] |
-| **Nano Banana 2** | Image | Text-to-Image, Edit Image | Ingredients | N/A | [COMPLETE] |
+| **Nano Banana 2.1** | Image | Text-to-Image, Edit Image | Ingredients | N/A | [COMPLETE] (wire code `BELUGA`; new default image model) |
 | **Nano Banana 2 Lite** | Image | Text-to-Image, Edit Image | Ingredients | N/A | [COMPLETE] |
 
 ---
@@ -125,7 +128,8 @@
   - Obfuscated 4 target JS files with zero syntax errors (`node --check` passed).
   - Copied static assets (`styles/`, `assets/`, `overlay/overlay.css`, `popup/`) and distribution URLs (`SC.url`, `SUPPORT ME.url`) into `dist/`.
   - Generated release zip package `releases/RJ_V-Flow_Auto-v3.0.0.zip` (0.79 MB) and mirror alias `releases/v3.0.0.zip`.
-- All 18 JS modules across `src/` verified passing `node --check` (0 errors).
+- All 18+ JS modules across `src/` verified passing `node --check` (0 errors).
+- Logic unit tests (Node harness, 2026-10-10): `SCHEMA_VERSION === 4`; `getDefaultModelForMode` returns `Nano Banana 2.1` for `text-to-image`/`edit-image`; `normalizeModelForMode` upgrades legacy `"Nano Banana 2"` to `"Nano Banana 2.1"`; `MODEL_MAP` resolves `Nano Banana 2.1`/`NANO_BANANA_2_1`/`BELUGA` to `BELUGA` and legacy names to `BELUGA`; fallback wire code is `BELUGA` (10/10 + 7/7 assertions pass).
 - Strict Zero Native Emoji Policy verified across all documentation and files.
 - Working tree active on branch `task/packaging-and-release`.
 
@@ -133,5 +137,6 @@
 
 ## 7. Immediate Next Step
 
-- Milestone v3.0 is **[COMPLETE]**.
-- Merge `task/packaging-and-release` into `dev` via `git merge --no-ff`, and subsequently merge `dev` into `main` upon user instruction.
+- Milestone v3.2.0 (Nano Banana 2.1 support) is **[COMPLETE]** on branch `task/nano-banana-2-1-support`.
+- User decision needed: push the branch to `origin` and/or merge into `dev` (`git merge --no-ff`); do not push without explicit instruction per `AGENTS.md`.
+- First live verification: run one `text-to-image` generation with the default model in Flow and confirm the tile succeeds (extension logs the wire model sent to `ogiZ0b`).

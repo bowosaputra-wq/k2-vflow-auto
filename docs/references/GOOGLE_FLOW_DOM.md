@@ -166,7 +166,7 @@ Opened by clicking `button.settings-trigger-button`:
   ```
 - **Active Models Matching (Model Names are Global Proper Nouns)**:
   - Video: `"Omni 1.1 Flash"`, `"Veo 3.1 - Lite"`, `"Veo 3.1 - Fast"`, `"Veo 3.1 - Quality"`
-  - Image: `"Nano Banana Pro"`, `"Nano Banana 2"`, `"Nano Banana 2 Lite"`
+  - Image: `"Nano Banana Pro"`, `"Nano Banana 2.1"`, `"Nano Banana 2 Lite"` (since 2026-10-05; `"Nano Banana 2"` was retired from the menu and its slot now serves 2.1, wire code `BELUGA`)
 
 #### 2. Mode & Media Toggles (Using Ligatures & Universal Tokens)
 - **Video Mode**: `mat-button-toggle:has(mat-icon:has-text("videocam")) button`
