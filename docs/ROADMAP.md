@@ -20,6 +20,8 @@ gantt
     Production Packaging & Release v3.0   :done, 2026-09-22, 2d
     section Phase 5
     Engine Hardening & Multi-Language v3.1:done, 2026-09-23, 1d
+    section Phase 6
+    Nano Banana 2.1 Migration v3.2       :done, 2026-10-10, 1d
 ```
 
 ---
@@ -96,3 +98,9 @@ gantt
 - [x] **Sub-phase 5.4**: Multi-Language Resilient DOM Engine & Localization Audit `[COMPLETE]`
   - Audited forensic captures on Indonesian (`id-ID`) systems. Resolved Grid Size S setup failure where `span:has-text("S")` collided with Indonesian 'Sedang' (Medium) instead of 'Kecil' (Small). Replaced text queries with structural positional LTR indexing (`index 0 = Small`, `index 1 = Medium`, `index 2 = Large`). Added Material Symbols ligatures `ink_eraser` and `chrome_extension`, and implemented numeric duration matching (`\d+`) across all global locales. Purged all remaining English text strings in compliance with `AGENTS.md` Rule 3.B.
 
+### Phase 6: Nano Banana 2.1 Model Migration (v3.2.0) `[COMPLETE]`
+- **Target Branch**: `task/nano-banana-2-1-support` $\to$ `dev`
+- [x] **Sub-phase 6.1**: BELUGA Wire Code Integration `[COMPLETE]`
+  - Mapped first-class `"Nano Banana 2.1"` model to Flow's internal `ogiZ0b` wire codename `BELUGA` in `flow_bridge.js` `MODEL_MAP`; legacy `"Nano Banana 2"` display names remapped from retired `NARWHAL` to `BELUGA` to avoid 404s; default/fallback wire code switched to `BELUGA`.
+- [x] **Sub-phase 6.2**: Schema v4 Stored-Config Migration `[COMPLETE]`
+  - Bumped `SCHEMA_VERSION` 3 -> 4: `migrateSchema` rewrites stored `model` and per-queue-item `model` values of `"Nano Banana 2"` to `"Nano Banana 2.1"`; `normalizeModelForMode` applies the same upgrade defensively; HUD dropdown and all image-mode defaults now offer Pro / 2.1 / 2 Lite, mirroring Flow's current menu.

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-10-10
+
+### Added
+- **Nano Banana 2.1 Support (`BELUGA` wire code)**:
+  - Added first-class `"Nano Banana 2.1"` model (`MODELS.NANO_BANANA_2_1`) across the Studio HUD model dropdown, `IMAGE_MODELS`, and all image-mode defaults (`text-to-image`, `edit-image`).
+  - Mapped Nano Banana 2.1 to Flow's internal wire codename `BELUGA` in `flow_bridge.js` `MODEL_MAP` (display name, constant, and raw identity rows), used by the `ogiZ0b` batchexecute RPC.
+  - Extended `FlowPromptService` image-mode routing detection to recognize `BELUGA` wire codes.
+
+### Changed
+- **Legacy "Nano Banana 2" Migration (Schema v4)**:
+  - Google removed "Nano Banana 2" from Flow's model menu on 2026-10-05 and now serves 2.1 in that slot; `NARWHAL` requests return `404 NOT_FOUND`. Legacy display-name mappings now resolve to `BELUGA`.
+  - `SCHEMA_VERSION` bumped 3 -> 4: stored configs and queue items still referencing `"Nano Banana 2"` are automatically rewritten to `"Nano Banana 2.1"` on load; `normalizeModelForMode` applies the same upgrade defensively at runtime.
+  - `"Nano Banana 2"` removed from the HUD model dropdown to mirror Flow's current menu (`Nano Banana Pro` / `Nano Banana 2.1` / `Nano Banana 2 Lite`).
+  - `SPrCad` upscaling and authenticated downloads verified compatible with 2.1-generated images (no changes required).
+
 ## [3.1.0] - 2026-09-23
 
 ### Added

@@ -589,7 +589,7 @@ export class FlowSettingsService {
     };
 
     // Strict model normalization according to media mode:
-    // Image modes (text-to-image, edit-image) strictly use image models (default: Nano Banana 2).
+    // Image modes (text-to-image, edit-image) strictly use image models (default: Nano Banana 2.1).
     // Video modes (text-to-video, image-to-video, frames-to-video) strictly use video models (default: Veo 3.1 - Lite).
     target.model = normalizeModelForMode(target.mode || MEDIA_MODES.TEXT_TO_VIDEO, target.model);
 

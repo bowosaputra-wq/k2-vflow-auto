@@ -154,7 +154,7 @@ export function renderStudioLayout() {
                   <option value="Omni 1.1 Flash">Omni 1.1 Flash</option>
                 </optgroup>
                 <optgroup label="Image Models" id="grpImageModels" style="display: none;">
-                  <option value="Nano Banana 2" selected>Nano Banana 2</option>
+                  <option value="Nano Banana 2.1" selected>Nano Banana 2.1</option>
                   <option value="Nano Banana Pro">Nano Banana Pro</option>
                   <option value="Nano Banana 2 Lite">Nano Banana 2 Lite</option>
                 </optgroup>
@@ -359,7 +359,7 @@ export function formatRowParamsBadge(params) {
   else if (mode === 'edit-image') modeAbbr = 'EI';
 
   // 2. Model Selector
-  let modelStr = params.model || (isVideo ? 'Veo 3.1 Lite' : 'Nano Banana 2');
+  let modelStr = params.model || (isVideo ? 'Veo 3.1 Lite' : 'Nano Banana 2.1');
   if (modelStr === 'Veo 3.1 - Fast') modelStr = 'Veo 3.1 Fast';
   else if (modelStr === 'Veo 3.1 - Lite') modelStr = 'Veo 3.1 Lite';
   else if (modelStr === 'Veo 3.1 - Quality') modelStr = 'Veo 3.1 Quality';
@@ -478,7 +478,7 @@ export function renderQueueRow(item, index, mode = 'text-to-video', isSortMode =
   const isVideo = mode !== 'text-to-image' && mode !== 'edit-image';
   const effectiveParams = params || {
     mode,
-    model: item.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2'),
+    model: item.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1'),
     aspectRatio: item.aspectRatio || '16:9',
     duration: item.duration || '6s',
     outputs: item.outputs || item.outputCount || 1,
