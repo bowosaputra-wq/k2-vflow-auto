@@ -45,7 +45,7 @@ flowchart LR
   - Smart media drag-and-drop: automatically switches modes and configures rows based on dropped file count.
 - **Model Family Support**:
   - *Video Generation*: **Veo 3.1** (`Lite`, `Fast`, `Quality`) and **Omni 1.1 Flash** (durations 4s–10s, output counts x1–x4).
-  - *Image Generation*: **Nano Banana** family (`2`, `Pro`, `2 Lite`).
+  - *Image Generation*: **Nano Banana** family (`2.1`, `Pro`, `2 Lite`).
 - **4-State Generation Lifecycle Watcher**: Evaluates tile states (`PENDING_RENDERING`, `BLANK_TRANSITION`, `DEFINITIVE_SUCCESS`, `DEFINITIVE_FAILURE`) with a 10-second grace timer for transient blank rendering phases, preventing false failure timeouts.
 - **Virtual Scroll Multi-Row Batch Collection**: Seamlessly tracks tiles across multiple virtual scroll rows (`div.tile-row`), resolving landscape 16:9 multi-output download clipping issues.
 - **In-Card Failure & Moderation Resilience**: Evaluates asset tile health directly in the gallery grid, bypassing downloads for blocked prompts and preventing automation lockups without relying on toasts.

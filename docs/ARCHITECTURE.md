@@ -135,7 +135,7 @@ graph TD
         Watcher --> DownloadVideo["FlowDownloadService (Hotbar Context Menu 1080p/4K)"]
     end
 
-    subgraph PipelineB ["Pipeline B: Pure Background Image RPC (Nano Banana 2 Family, Pro)"]
+    subgraph PipelineB ["Pipeline B: Pure Background Image RPC (Nano Banana 2.1 Family, Pro)"]
         ModeCheck -->|Image Modes| BGPending["Immediate Transition to GENERATING"]
         BGPending --> CheckEdit{"Mode = Edit Image?"}
         CheckEdit -->|Yes| UploadRPC["Upload Reference via maseQ RPC (mediaId)"]

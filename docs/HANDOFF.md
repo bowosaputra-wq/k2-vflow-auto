@@ -5,7 +5,16 @@
 ---
 
 ## 1. Immediate Operational State
-- **Current Milestone**: v3.1.0 Release Milestone & Documentation Governance
+- **Current Milestone**: v3.2.0 Nano Banana 2.1 Support
+- **Active Branch**: `task/nano-banana-2-1-support` (unpushed; awaiting user instruction to push/merge per `AGENTS.md`)
+- **Latest Work (2026-10-10)**:
+  - `feat(models): add Nano Banana 2.1 support with BELUGA wire code and schema v4 migration` (pending commit)
+  - Google replaced "Nano Banana 2" with "Nano Banana 2.1" in Flow's model picker (2026-10-05) and retired `NARWHAL` (404s). 2.1's wire codename is `BELUGA` (corroborated by three independent secondary sources; see ADR-016).
+  - Legacy `"Nano Banana 2"` stored configs auto-migrate to `"Nano Banana 2.1"` (schema v4); legacy display-name mappings resolve to `BELUGA`.
+  - **First live verification still open**: run one `text-to-image` generation with the default model and confirm the tile succeeds; extension logs the wire model sent to `ogiZ0b`.
+
+## 2. Previous Operational State (v3.1.0)
+- **Previous Milestone**: v3.1.0 Release Milestone & Documentation Governance
 - **Active Branch**: `task/fix-image-generation-trigger`
 - **Latest Commits**:
   - `fix(dom): multi-language resilient grid size selector and localization audit`
@@ -25,7 +34,7 @@
 
 ---
 
-## 2. Active In-Flight Context
+## 3. Active In-Flight Context (v3.1.0 era)
 
 Phase 1 (Cleanup & Governance Foundation) was successfully completed and merged into `dev` (`7838930`).
 Phase 2 (Core Automation Engine & Services) was successfully completed across all 5 sub-phases and merged into `dev` (`c14ca68`).
@@ -50,26 +59,18 @@ Phase 5 (Post-Release Engine Hardening & Multi-Language Modernization) completed
 
 ---
 
-## 3. Actionable Next Steps for User / Incoming Agent
+## 4. Actionable Next Steps for User / Incoming Agent
 
-1. **User Self-Commit Instruction**:
-   - The user requested to commit the changes themselves. Do not run `git commit`.
-   - Recommended commit message: `chore(release): bump version to 3.1.0 and overhaul documentation governance`
-   - Files to stage:
-     - `src/manifest.json`
-     - `CHANGELOG.md`
-     - `README.md`
-     - `docs/ARCHITECTURE.md`
-     - `docs/CURRENT_STATE.md`
-     - `docs/DECISIONS.md`
-     - `docs/HANDOFF.md`
-     - `docs/ROADMAP.md`
-     - `docs/references/GOOGLE_FLOW_DOM.md`
-     - `docs/agent-logs/2026-09-23.md`
+1. **Commit & Push Decision (user-gated)**:
+   - Changes for v3.2.0 are staged on local branch `task/nano-banana-2-1-support` (unpushed).
+   - Per `AGENTS.md`: never commit directly to `main`/`dev`; never push to remote or merge without explicit user instruction.
+   - Recommended commit message: `feat(models): add Nano Banana 2.1 support with BELUGA wire code and schema v4 migration`
+2. **Live Verification**: Load the unpacked extension, run one `text-to-image` generation with the default model, confirm the tile succeeds. The extension logs the wire model sent to `ogiZ0b` — it should read `BELUGA`.
+3. **Watch item**: `BELUGA` codename is corroborated by secondary sources only. If Google rotates it, update `MODEL_MAP` in `src/content/flow_bridge.js` (one line).
 
 ---
 
-## 4. Critical Gotchas & Architectural Traps
+## 5. Critical Gotchas & Architectural Traps
 
 - **Zero English-Label Dependency**: Never query elements using localized English `aria-label` text (e.g. `[aria-label="Start generation"]`, `[aria-label="Tile grid settings"]`). Always use Material Symbols ligatures (`settings_2`, `more_vert`, `download`, `arrow_forward`, `swap_horiz`, `cancel`, `dashboard`, `left_panel_close`), custom tags (`flow-*`), or internal CSS classes (`.settings-trigger-button`, `.agent-mode-chip`, `.generate-icon-button`).
 - **Zero-CDP Mandate**: Never introduce `chrome.debugger` or CDP synthetic events. All text injection must use `document.execCommand('insertText')` + native `InputEvent` dispatch on `flow-rich-text-editor.prompt-input div.ProseMirror`.

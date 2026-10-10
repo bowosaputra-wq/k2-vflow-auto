@@ -291,7 +291,7 @@ export class QueueManager {
       const mode = item.mode || cfg.mode || 'text-to-video';
       const isImageMode = (mode === 'text-to-image' || mode === 'edit-image');
       const isVideo = !isImageMode;
-      const rawModel = item.model || cfg.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2');
+      const rawModel = item.model || cfg.model || (isVideo ? 'Veo 3.1 - Lite' : 'Nano Banana 2.1');
       const model = normalizeModelForMode(mode, rawModel);
       const aspectRatio = item.aspectRatio || cfg.aspectRatio || '16:9';
       const duration = item.duration || cfg.duration || '6s';

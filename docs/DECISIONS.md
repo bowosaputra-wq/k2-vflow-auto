@@ -204,3 +204,19 @@
   - **Positive**: 100% resilient across all localized Google Flow interfaces worldwide; zero text collisions; bulletproof automation across English, Indonesian, French, German, Spanish, Japanese, and Chinese.
   - **Negative**: Assumes standard LTR button ordering within Angular Material button toggle groups.
 
+
+## ADR-016: Nano Banana 2.1 Migration — BELUGA Wire Code & Schema v4 (`FlowStorage`, `flow_bridge`)
+
+- **Status**: `ACCEPTED`
+- **Date**: 2026-10-10
+- **Context**: On 2026-10-05 Google replaced "Nano Banana 2" with "Nano Banana 2.1" (Gemini 3.6 Flash based, GA 2026-10-06 as `gemini-nano-banana-2.1`) in the Google Flow model picker, then removed the old label from the menu entirely. Requests carrying the retired wire code `NARWHAL` began failing with `404 NOT_FOUND` ("Requested entity was not found."). Generated images from the new model report `modelNameType` as `BELUGA` (corroborated by three independent secondary sources: a third-party Flow API provider changelog, and two model-tracking reports). Google has not published the codename in primary documentation, so the mapping is marked corroborated-secondary, not primary-confirmed.
+- **Decision**:
+  1. Add first-class model `"Nano Banana 2.1"` (`MODELS.NANO_BANANA_2_1`) and wire it to `BELUGA` in `flow_bridge.js` `MODEL_MAP` (display name, `NANO_BANANA_2_1` constant, and raw `BELUGA` identity rows).
+  2. Remap legacy `"Nano Banana 2"` / `NANO_BANANA_2` display names to `BELUGA` instead of `NARWHAL`, because Flow now serves 2.1 in the retired slot. Keep raw `NARWHAL` identity row for completeness.
+  3. Change the image-mode default across `FlowStorage.getDefaultModelForMode`, `QueueManager`, `FlowPromptService`, `FlowHUDHost`, and `FlowHUDTemplates` from `"Nano Banana 2"` to `"Nano Banana 2.1"`, mirroring Flow's own new default.
+  4. Remove `"Nano Banana 2"` from `IMAGE_MODELS` and the HUD dropdown (Flow's menu lists Pro / 2.1 / 2 Lite), but keep `MODELS.NANO_BANANA_2` as a legacy alias for migration.
+  5. Bump `SCHEMA_VERSION` 3 -> 4: `migrateSchema` rewrites stored `model` and per-queue-item `model` values of `"Nano Banana 2"` to `"Nano Banana 2.1"`; `normalizeModelForMode` performs the same upgrade defensively at runtime.
+  6. Extend `FlowPromptService` image-mode routing detection with `BELUGA` alongside existing wire-code checks.
+- **Consequences**:
+  - **Positive**: Image generation keeps working after Google's silent model swap; old saved configs and queue items auto-upgrade without user action; no 404 failures from stale `NARWHAL` requests.
+  - **Negative**: `BELUGA` is corroborated by secondary sources only. If Google rotates the codename, `MODEL_MAP` needs a one-line update; the failure mode is a loud RPC error, not silent wrong-model generation.

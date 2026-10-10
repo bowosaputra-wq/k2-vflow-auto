@@ -65,14 +65,22 @@
 
   const MODEL_MAP = {
     'Nano Banana Pro': 'GEM_PIX_2',
-    'Nano Banana 2': 'NARWHAL',
+    // Nano Banana 2.1 (Gemini 3.6 Flash based) — Flow wire codename BELUGA.
+    // Corroborated by generated-image modelNameType reports (Oct 2026).
+    'Nano Banana 2.1': 'BELUGA',
+    // Legacy "Nano Banana 2" slot now serves 2.1 in Flow; NARWHAL requests
+    // started returning 404 NOT_FOUND on 2026-10-05. Map to BELUGA so old
+    // callers keep generating instead of failing.
+    'Nano Banana 2': 'BELUGA',
     'Nano Banana 2 Lite': 'HARBOR_SEAL',
     'Nano Banana Lite': 'HARBOR_SEAL',
     'NANO_BANANA_PRO': 'GEM_PIX_2',
-    'NANO_BANANA_2': 'NARWHAL',
+    'NANO_BANANA_2_1': 'BELUGA',
+    'NANO_BANANA_2': 'BELUGA',
     'NANO_BANANA_2_LITE': 'HARBOR_SEAL',
     'NANO_BANANA_LITE': 'HARBOR_SEAL',
     'GEM_PIX_2': 'GEM_PIX_2',
+    'BELUGA': 'BELUGA',
     'NARWHAL': 'NARWHAL',
     'HARBOR_SEAL': 'HARBOR_SEAL'
   };
@@ -603,7 +611,7 @@
     const {
       prompt,
       projectId = getProjectId(),
-      model = 'Nano Banana 2',
+      model = 'Nano Banana 2.1',
       aspectRatio = '16:9',
       count = 1,
       seed = null,
@@ -618,7 +626,7 @@
       throw new Error('Could not determine Flow projectId from URL');
     }
 
-    const wireModel = MODEL_MAP[model] || 'NARWHAL';
+    const wireModel = MODEL_MAP[model] || 'BELUGA';
     const wireAspect = ASPECT_MAP[aspectRatio] || 3; // default 16:9
     const safeCount = Math.max(1, Math.min(4, Number(count) || 1));
 
